@@ -72,8 +72,6 @@ jobs:
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
 
-
-
       - name: Upload linux releases to next job
         uses: actions/upload-artifact@v3
         if: matrix.os == 'ubuntu-latest'
@@ -113,7 +111,7 @@ jobs:
           sudo apt-get install jq
 
       - name: save app version
-        run: echo "APP_VERSION=$(jq '.package.version' ./src-tauri/tauri.conf.json)" >> $GITHUB_ENV
+        run: echo "APP_VERSION=$(jq -r '.package.version' ./src-tauri/tauri.conf.json)" >> $GITHUB_ENV
 
       - name: Download x86_64 artifacts
         uses: actions/download-artifact@v3
@@ -150,7 +148,7 @@ jobs:
 
       - name: Create install.json
         run: |
-          echo '{ "version": "${{ env.APP_VERSION }}", "notes": "new version", "pub_date": "$(date -u +"%Y-%m-%dT%H:%M:%S.%3NZ")", "platforms": { "darwin-aarch64": { "signature": "$(cat path/to/Delegate_${{ env.APP_VERSION }}_macos_aarch64.app.tar.gz.sig)", "url": "https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_macos_aarch64.app.tar.gz" }, "darwin-x86_64": { "signature": "$(cat path/to/Delegate_${{ env.APP_VERSION }}_macos_x86_64.app.tar.gz.sig)", "url": "https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_macos_x86_64.app.tar.gz" }, "linux-x86_64": { "signature": "$(cat path/to/Delegate_${{ env.APP_VERSION }}_linux_x86_64.AppImage.tar.gz.sig)", "url": "https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_linux_x86_64.AppImage.tar.gz" }, "windows-x86_64": { "signature": "$(cat path/to/Delegate_${{ env.APP_VERSION }}_windows_x86_64.msi.zip.sig)", "url": "https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_windows_x86_64.msi.zip" } } }' > install.json
+          echo '{ "version": "${{ env.APP_VERSION }}", "notes": "new version", "pub_date": "$(date -u +"%Y-%m-%dT%H:%M:%S.%3NZ")", "platforms": { "darwin-aarch64": { "signature": "$(cat path/to/Delegate_${{ env.APP_VERSION }}_macos_aarch64.app.tar.gz.sig)", "url": "https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_macos_aarch64.app.tar.gz" }, "darwin-x86_64": { "signature": "$(cat path/to/Delegate_${{ env.APP_VERSION }}_macos_x86_64.app.tar.gz.sig)", "url": "https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_macos_x86_64.app.tar.gz" }, "linux-x86_64": { "signature": "$(cat path/to/Delegate_${{ env.APP_VERSION }}_linux_x86_64.AppImage.tar.gz.sig)", "url": "https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_linux_x86_64.AppImage.tar.gz" }, "windows-x86_64": { "signature": "$(cat path/to/Delegate_${{ env.APP_VERSION }}_windows_x86_64.msi.zip.sig)", "url": "https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_windows_x86_64.msi.zip" } } }' > artifacts/install.json
         env:
           APP_VERSION: ${{ env.APP_VERSION }}
 
