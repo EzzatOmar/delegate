@@ -68,6 +68,7 @@ jobs:
       - name: Build the app
         run: npm run build:be ${{ matrix.target }}
         env:
+          CI: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
