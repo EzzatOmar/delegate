@@ -10,6 +10,9 @@
 # TODO
 
 - [ ] cross platform builds - https://tauri.app/v1/guides/building/cross-platform
+ - [ ] test json, update trigger
+ - [ ] fix silicon dmg error
+- [ ] update readme
 - [ ] add update function
 - [ ] add http log
 - [ ] delete 
