@@ -12,7 +12,6 @@
 - [ ] test install.json, update trigger
 - [ ] update readme
 - [ ] add update function
-- [ ] add http log
 - [ ] save text as tiptap json
 - [ ] make context window variable
 - [ ] include text streaming
