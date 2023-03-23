@@ -13,7 +13,6 @@
 - [ ] update readme
 - [ ] add update function
 - [ ] add http log
-- [ ] delete 
 - [ ] save text as tiptap json
 - [ ] make context window variable
 - [ ] include text streaming
