@@ -1,8 +1,9 @@
 import { GlobalError } from '../../error';
-import { Body, fetch } from "@tauri-apps/api/http"
+import { Body } from "@tauri-apps/api/http"
 import { BotState, OpenAiBody, OpenAiConfig } from '../../hooks/useBot';
 import { ChatState } from '../../hooks/useChat';
 import { unwrap } from 'solid-js/store';
+import { fetch } from './help';
 
 // https://github.com/openai/openai-openapi
 
