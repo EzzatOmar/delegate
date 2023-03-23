@@ -9,3 +9,8 @@ Delegate is a free and open-source desktop application that allows the user to r
 
 1. Once the application is running, you can type in a prompt and hit enter to generate a response from GPT-3.  
 2. The generated response will be displayed on the screen.  
+
+## Docs  
+
+<!-- ### Dev Docs  
+![tauri update](./docs/dev-docs/updater.md "tauri update") -->
