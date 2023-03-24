@@ -4,6 +4,7 @@ import { relaunch } from '@tauri-apps/api/process';
 export async function updateApp () {
   try {
     const { shouldUpdate, manifest } = await checkUpdate()
+    console.log(shouldUpdate, manifest)
     if (shouldUpdate) {
       // display dialog
       await installUpdate()
