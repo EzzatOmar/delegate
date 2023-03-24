@@ -1,23 +1,23 @@
 {
-  "version": "0.0.9",
+  "version": "0.0.10",
   "notes": "new version",
-  "pub_date": "2023-03-24T14:34:58.293Z",
+  "pub_date": "2023-03-24T15:22:28.871Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbXJkNjdHUzhRRjQzN2xvZnNPYkwvazZQLzVYUFFNZWVzQytBUUs3RmRicEtUOCtKL0hHeE12QlZZajB5d01CYkxrVEoyRmJaY29XS3diSG5NMVFaVGtUQi80bGxaL1FVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjc5NTA5NTQ0CWZpbGU6RGVsZWdhdGUuYXBwLnRhci5negpJZFdRSHNSUjJBSmpWNTNuL2FOdlhIeEtIZ012NmJwNFAzbWw4WmdwSFcxN0paR0RQNGJZRnJ4RWtWL2U0MGtQbkhWR3UzUEZSVXdpRDRvSmdsZG9Cdz09Cg==",
-      "url": "https://github.com/EzzatOmar/delegate/releases/download/app-v0.0.9/Delegate_0.0.9_mac_silicon.dmg"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbXJkNjdHUzhRRjdrVm8vRWJJaitSVFRWSm5rQUtCRm4zSEZmMEExa1FldVZ3eFJHbnpxOFMwQ3RMNFgvd3lhenNBeG1tWmtKeU04cE5QS3VKeGdzYXdSdHg0R2FpYmdvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjc5NjcwOTUzCWZpbGU6RGVsZWdhdGUuYXBwLnRhci5negoyNGtucUVITzRDMXJmR3F2UWNsUm9icW9ka2ZiVHo1L2pBcnV1VUZwbUJMdmNoWmF6WWliZXU4djJRODl4RUpaak5rSDcvQ0JDRVJKT1ZObXVXWU9CQT09Cg==",
+      "url": "https://github.com/EzzatOmar/delegate/releases/download/app-v0.0.10/Delegate_0.0.10_mac_silicon.dmg"
     },
     "darwin-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbXJkNjdHUzhRRjhaR0ZiS0c1bUhjdkNNY0w4d3VXbCtlSW92RHBYSjZ5cVo4QlZaSTFmdGhhLzBpT0dmWHNpSGpLNEhVVGpBc0Z3ZG81Qzh0VEdKeVRCWUQ2WTZmekEwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjc5NTA5NjQ2CWZpbGU6RGVsZWdhdGUuYXBwLnRhci5nego4djlzK2wvKzFTVUd0Um5tSUNIckoxY1JkN1ZrQ2IveUJ1R1piVnUyUFgzOWN2eEhNV085ZFQzYVBFVUxqdVlyVmdqRmszbnZXcjF4Rm5WYWpiQTdDdz09Cg==",
-      "url": "https://github.com/EzzatOmar/delegate/releases/download/app-v0.0.9/Delegate_0.0.9_mac_intel.dmg"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbXJkNjdHUzhRRjhpbDc2eGF3OWVJV1hwbzE2YkpFRVkya1JXMXJHK2lBcGV5SjloSnRxVVR2OXdQZVFNUkVhcE9QWHpnN1IvODd5UnZXTFdOQXAzSytZWGxwQXhXb2dRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjc5NjcxMTEwCWZpbGU6RGVsZWdhdGUuYXBwLnRhci5negowWHNXTkJEMHJPY0RGczFnNnV3YndMRzd4d1JBSnN0TVAyQzZqVTQzYUdWSlZSNGlsYzYzeFRyZXNvSnJ1UGV1dzhabjUxYU1YY25FY09CY2VYOEhCdz09Cg==",
+      "url": "https://github.com/EzzatOmar/delegate/releases/download/app-v0.0.10/Delegate_0.0.10_mac_intel.dmg"
     },
     "linux-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbXJkNjdHUzhRRjd0bGQrMkFQYnRxMm5qY2FXeks3aTVBalVaaVE0Mm96NXNiNkNINzJUbi9wa0tHaFdIc05vWDF4YmdEdHpGbUZBS1hnTldiMUMwcUJUalBmdndWRUFvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjc5NTA5Mjk2CWZpbGU6ZGVsZWdhdGVfMC4wLjlfYW1kNjQuQXBwSW1hZ2UudGFyLmd6CmoydFB5Y0s4UEtLc283bFkyWmVGRW9ZaklWaHh0RUlBSjNYaFArbUhuS1U2dy9UZzlPQkRQK0VoS3hTT0tyZExWYS9ZV3VKMFNaby82OUxIaEtHY0JnPT0K",
-      "url": "https://github.com/EzzatOmar/delegate/releases/download/app-v0.0.9/Delegate_0.0.9_linux_x86_64.deb"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbXJkNjdHUzhRRitTdGoyc3FhaU9DT2drays0VVk5U01BaURpblRVRzdzeWZoaEFSSEI1cU5Uc3I0VVVtV0tFRUtUZkNBenJjdTJRaCs4QUFIS0IvQ2VMYjlub21XVmdvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjc5NjcwNDkzCWZpbGU6ZGVsZWdhdGVfMC4wLjEwX2FtZDY0LkFwcEltYWdlLnRhci5negpCTk9NZmRvSzdVU3kraTdoU1F2V3UyOUVacjFnblRiRVJkNllCWGNEdktDMTJmMWR3WGNMK0F3elBCbVRNL3p6eEhaK3ZKR0NLbkJOd0dIOXVUOEJEZz09Cg==",
+      "url": "https://github.com/EzzatOmar/delegate/releases/download/app-v0.0.10/Delegate_0.0.10_linux_x86_64.deb"
     },
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbXJkNjdHUzhRRjVzODRDL3hOUXpSN1crbHRGZHI5Zy9HdWFhMEN6d1NMNFNiZVNTMS91Wm5zd0wxTm8yOG5GZDMvTzB5WEMwbGFSMHpzYTd4Q1JYR3lxSHdnQTRxcGd3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjc5NTA5ODA2CWZpbGU6RGVsZWdhdGVfMC4wLjlfeDY0X2VuLVVTLm1zaS56aXAKbjIvaFRhaFdRN2w1dEtLL2J0VjZOU1pTcnlNVnlYMzJRMVFjWlFTVytuOExOd3JWTVAxd3JoUDV0TkUzMkYwVVZaWDdsQzlCVC92bjFGRnRiV3l4REE9PQo=",
-      "url": "https://github.com/EzzatOmar/delegate/releases/download/app-v0.0.9/Delegate_0.0.9_windows_x86_64.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbXJkNjdHUzhRRjM1V2oveGRFbWkraVRNTUwyNmhJdkNxZ3Uzd2hrZzZLR1BNRVJQN21hbHFuQWxjTWtvWDBUQjRFWEZ3Qjh2cVFId1ViNWwzc2FjTUlTbk9VUDRvbEFjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjc5NjcwOTM0CWZpbGU6RGVsZWdhdGVfMC4wLjEwX3g2NF9lbi1VUy5tc2kuemlwCi9kQ0YxWHU4b1l2RnhhTHArTVMvSUh2UmJoWDI2Nm03UkxFbEFUYUFwTWM0bEpvS05tSDcwOHZVVmVxNnFKQVFwdm12M004UkY1aFdRSTJ6WHBJYkFnPT0K",
+      "url": "https://github.com/EzzatOmar/delegate/releases/download/app-v0.0.10/Delegate_0.0.10_windows_x86_64.msi"
     }
   }
 }
