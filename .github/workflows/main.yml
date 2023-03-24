@@ -152,11 +152,11 @@ jobs:
           mv "artifacts/x86_64/Delegate_${{ env.APP_VERSION }}_x64_en-US.msi.zip" "artifacts/Delegate_${{ env.APP_VERSION }}_windows_x86_64.msi.zip"
           mv "artifacts/x86_64/Delegate_${{ env.APP_VERSION }}_x64_en-US.msi.zip.sig" "artifacts/Delegate_${{ env.APP_VERSION }}_windows_x86_64.msi.zip.sig"
 
-      - name: Create install.json
-        run: |
-          echo "{ \"version\": \"${{ env.APP_VERSION }}\", \"notes\": \"new version\", \"pub_date\": \"$(date -u +\"%Y-%m-%dT%H:%M:%S.%3NZ\")\", \"platforms\": { \"darwin-aarch64\": { \"signature\": \"$(cat path/to/Delegate_${{ env.APP_VERSION }}_macos_aarch64.app.tar.gz.sig)\", \"url\": \"https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_macos_aarch64.app.tar.gz\" }, \"darwin-x86_64\": { \"signature\": \"$(cat path/to/Delegate_${{ env.APP_VERSION }}_macos_x86_64.app.tar.gz.sig)\", \"url\": \"https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_macos_x86_64.app.tar.gz\" }, \"linux-x86_64\": { \"signature\": \"$(cat path/to/Delegate_${{ env.APP_VERSION }}_linux_x86_64.AppImage.tar.gz.sig)\", \"url\": \"https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_linux_x86_64.AppImage.tar.gz\" }, \"windows-x86_64\": { \"signature\": \"$(cat path/to/Delegate_${{ env.APP_VERSION }}_windows_x86_64.msi.zip.sig)\", \"url\": \"https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_windows_x86_64.msi.zip\" } } }" > artifacts/install.json
-        env:
-          APP_VERSION: ${{ env.APP_VERSION }}
+      # - name: Create install.json
+      #   run: |
+      #     echo "{ \"version\": \"${{ env.APP_VERSION }}\", \"notes\": \"new version\", \"pub_date\": \"$(date -u +\"%Y-%m-%dT%H:%M:%S.%3NZ\")\", \"platforms\": { \"darwin-aarch64\": { \"signature\": \"$(cat path/to/Delegate_${{ env.APP_VERSION }}_macos_aarch64.app.tar.gz.sig)\", \"url\": \"https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_macos_aarch64.app.tar.gz\" }, \"darwin-x86_64\": { \"signature\": \"$(cat path/to/Delegate_${{ env.APP_VERSION }}_macos_x86_64.app.tar.gz.sig)\", \"url\": \"https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_macos_x86_64.app.tar.gz\" }, \"linux-x86_64\": { \"signature\": \"$(cat path/to/Delegate_${{ env.APP_VERSION }}_linux_x86_64.AppImage.tar.gz.sig)\", \"url\": \"https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_linux_x86_64.AppImage.tar.gz\" }, \"windows-x86_64\": { \"signature\": \"$(cat path/to/Delegate_${{ env.APP_VERSION }}_windows_x86_64.msi.zip.sig)\", \"url\": \"https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_windows_x86_64.msi.zip\" } } }" > artifacts/install.json
+      #   env:
+      #     APP_VERSION: ${{ env.APP_VERSION }}
 
       - name: Create Release
         uses: softprops/action-gh-release@master

@@ -1,10 +1,16 @@
-import { checkUpdate } from '@tauri-apps/api/updater';
+import { checkUpdate, installUpdate } from '@tauri-apps/api/updater';
+import { relaunch } from '@tauri-apps/api/process';
 
 export async function updateApp () {
-  console.log('TODO: updateApp');
-  const update = await checkUpdate();
-  console.log('TODO: updateApp', update);
-  // check for updates
-  // if update available, prompt user
-  // if user accepts, download and install
+  try {
+    const { shouldUpdate, manifest } = await checkUpdate()
+    if (shouldUpdate) {
+      // display dialog
+      await installUpdate()
+      // install complete, restart the app
+      await relaunch()
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }
