@@ -7,8 +7,8 @@ import HardBreak from '@tiptap/extension-hard-break';
 import History from '@tiptap/extension-history';
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { lowlight } from 'lowlight/lib/core'
-import { Editor, Extension, createDocument, getSchema, generateJSON, generateHTML } from "@tiptap/core";
-import {htmlEncode} from "js-htmlencode";
+import { Editor, Extension } from "@tiptap/core";
+import { htmlEncode } from "js-htmlencode";
 import hljs from "highlight.js/lib/common";
 import Spinner from "../../base-components/Spinner";
 import { useAlert } from "../../hooks/useAlert";
@@ -23,7 +23,7 @@ function MessageLeft(props: { message: ChatMessage }) {
 // register tiptap syntax highlighter
 hljs.listLanguages().forEach(lang => {
     const langModule = hljs.getLanguage(lang);
-    if(langModule) lowlight.registerLanguage(lang, () => langModule);
+    if (langModule) lowlight.registerLanguage(lang, () => langModule);
 });
 
 
@@ -39,8 +39,6 @@ function MessageRight(props: { message: ChatMessage }) {
             const regex2 = /\n/g;
             return text.replace(regex2, '<br>');
         }
-        // let doc = generateJSON(outputString, extensions);
-        // console.log(doc.content)
         editor = createTiptapEditor(() => ({
             element: editorDiv!,
             extensions: [
@@ -153,6 +151,15 @@ function ChatConfigView(props: { chat: ChatState }) {
     </div>
 }
 
+function MessageActions(props: { message: ChatMessage }) {
+
+    return <div class="w-12 pt-4">
+        <Svg name="trash" class="cursor-pointer hover:text-blue-400" onClick={e => {
+
+        }} />
+    </div>
+}
+
 function ChatView(props: { chat: ChatState }) {
     const [__, { addMessage }, { }] = useChat();
 
@@ -260,10 +267,20 @@ function ChatView(props: { chat: ChatState }) {
         <div class="flex flex-col" style="height: calc(100% - 2rem)">
             <div class="flex-1 overflow-y-auto mb-1" ref={scrollableDiv!}>
                 <For each={props.chat.messages}>
-                    {(item) => <Switch>
-                        <Match when={item.receiverUid === null}><MessageRight message={item} /></Match>
-                        <Match when={item.senderUid === null}><MessageLeft message={item} /></Match>
-                    </Switch>}
+                    {(item) => <div class="flex w-full">
+                        <div class="">
+                            <MessageActions message={item} />
+                        </div>
+                        <div class="flex-1">
+                            <Switch>
+                                <Match when={item.receiverUid === null}>
+                                    <MessageRight message={item} />
+                                </Match>
+                                <Match when={item.senderUid === null}><MessageLeft message={item} /></Match>
+                            </Switch>
+                        </div>
+                    </div>
+                    }
                 </For>
                 <Show when={spinner()}>
                     <div class="flex">
