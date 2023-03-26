@@ -1,7 +1,7 @@
 import { batch, createMemo } from "solid-js";
 import { createStore, reconcile, SetStoreFunction } from "solid-js/store";
 import { ChatStruct, deleteChat, insertChat, selectChats, updateChatTitle, updateSystemMessage } from "../controller/database/models/chats";
-import { insertMessage, MessageStruct, selectMessages } from "../controller/database/models/messages";
+import { deleteMessageAndSubtree, insertMessage, MessageStruct, selectMessage, selectMessages } from "../controller/database/models/messages";
 import { chatCompletion } from "../controller/network/openai";
 import { GlobalError } from "../error";
 import { useAlert } from "./useAlert";
@@ -65,6 +65,7 @@ export type ChatValue = [
     editChatTitle: typeof editChatTitle;
     editSystemMessage: typeof editSystemMessage;
     removeChat: typeof removeChat;
+    dropMessageAndChildren: typeof dropMessageAndChildren;
   },
   stateLessActions: {
     toChatState: typeof toChatState;
@@ -99,6 +100,31 @@ async function editSystemMessage(args: {id: number, systemMessage: string}):Prom
   setState('chats', c => c.id === chat!.id, 'settings', reconcile(chat?.settings));
 
   return [state.chats.find(c => c.id === chat!.id)!, null];
+}
+
+/**
+ * Updates the store
+ */
+async function dropMessageAndChildren(args: {id: number}) {
+  let [message, gErr] = await selectMessage(args.id)
+  .then(msg => [msg, null])
+  .catch(err => [null, {UserAlert: err} as GlobalError]) as [MessageStruct | null, GlobalError | null];
+  if(gErr) return [null, gErr];
+
+
+  let gErr2 = await deleteMessageAndSubtree(args.id)
+  .catch(err => ({UserAlert: err}) as GlobalError);
+  if(gErr2) return [null, gErr2];
+
+  const [messages, gErr3] = await selectMessages(message!.chat_id)
+  .then(msg => [msg.map(toChatmessage), null])
+  .catch(err => [null, {UserAlert: err} as GlobalError]) as [ChatMessage | null, GlobalError | null];
+
+  if(gErr3) return [null, gErr3];
+
+  setState('chats', c => c.id === message!.chat_id, '_messages', messages!);
+
+  return [state.chats.find(c => c.id === message!.chat_id)!, null];
 }
 
 /**
@@ -327,7 +353,7 @@ function buildChatStruct (args: Omit<CreateChatStruct, "settings">, settings: {b
 
 export const useChat = ():ChatValue => {
   return [state,
-    { setState, selectChat, addMessage, fetchAndSyncChatsFromDb, createChat, editChatTitle, editSystemMessage, removeChat },
+    { setState, selectChat, addMessage, fetchAndSyncChatsFromDb, createChat, editChatTitle, editSystemMessage, removeChat, dropMessageAndChildren },
     { toChatState, toChatmessage, toChatSettings, buildChatStruct }
   ];
 }

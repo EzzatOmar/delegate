@@ -152,10 +152,11 @@ function ChatConfigView(props: { chat: ChatState }) {
 }
 
 function MessageActions(props: { message: ChatMessage }) {
+    const [_, {dropMessageAndChildren}] = useChat();
 
     return <div class="w-12 pt-4">
         <Svg name="trash" class="cursor-pointer hover:text-blue-400" onClick={e => {
-
+            dropMessageAndChildren({id: props.message.id});
         }} />
     </div>
 }
