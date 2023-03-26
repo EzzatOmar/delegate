@@ -10,11 +10,12 @@
 # TODO
 
 - [ ] test install.json, update trigger
-- [ ] update readme
 - [ ] add update function
+- [ ] include text streaming
+- [ ] update readme
+- [ ] auto name chate name in chat gpt, add setting to disable
 - [ ] save text as tiptap json
 - [ ] make context window variable
-- [ ] include text streaming
 - [ ] loading button state
   ![loading button state](./todo-images/button-loading.excalidraw.png "loading button state")
 - [ ] write readme
