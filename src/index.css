@@ -1,0 +1,6 @@
+@import "./components/canvas/Document.css";
+@import "../node_modules/highlight.js/styles/tokyo-night-dark.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

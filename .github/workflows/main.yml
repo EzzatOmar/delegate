@@ -1,0 +1,172 @@
+name: Release Delegate
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - build: linux
+            os: ubuntu-latest
+            arch: x86_64
+            target: x86_64-unknown-linux-gnu
+          - build: macos
+            os: macos-latest
+            arch: x86_64
+            target: x86_64-apple-darwin
+          - buid: macos
+            os: macos-latest
+            arch: aarch64
+            target: aarch64-apple-darwin
+          - build: windows
+            os: windows-latest
+            arch: x86_64
+            target: x86_64-pc-windows-msvc
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install xattr (macos only)
+        if: matrix.os == 'macos-latest'
+        run: pip install xattr
+
+      - name: Install dependencies (ubuntu only)
+        if: matrix.os == 'ubuntu-latest'
+        # You can remove libayatana-appindicator3-dev if you don't use the system tray feature.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev webkit2gtk-4.0 libayatana-appindicator3-dev librsvg2-dev patchelf
+
+      - name: Rust setup
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.target }}
+          # workspaces: './src-tauri -> target'
+
+      - name: Sync node version and setup cache
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm' # Set this to npm, yarn or pnpm.
+
+      - name: Install node dependencies and build web
+        # Remove `&& yarn build` if you build your frontend in `beforeBuildCommand`
+        run: npm ci && npm run build:fe # Change this to npm, yarn or pnpm.
+
+      - name: Install rust target
+        run: rustup target add ${{ matrix.target }}
+
+      - name: Build the app
+        run: npm run build:be ${{ matrix.target }}
+        env:
+          CI: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+
+      - name: Upload linux releases to next job
+        uses: actions/upload-artifact@v3
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          name: artifacts-${{ matrix.arch }}
+          path: |
+            ./src-tauri/target/${{ matrix.target }}/release/bundle/appimage/**.AppImage.*
+            ./src-tauri/target/${{ matrix.target }}/release/bundle/deb/**.deb
+
+      - name: Upload mac releases to next job
+        uses: actions/upload-artifact@v3
+        if: matrix.os == 'macos-latest'
+        with:
+          name: artifacts-${{ matrix.arch }}
+          path: |
+            ./src-tauri/target/${{ matrix.target }}/release/bundle/dmg/**.dmg
+            ./src-tauri/target/${{ matrix.target }}/release/bundle/macos/**.app.*
+
+      - name: Upload windows releases to next job
+        uses: actions/upload-artifact@v3
+        if: matrix.os == 'windows-latest'
+        with:
+          name: artifacts-${{ matrix.arch }}
+          path: |
+            ./src-tauri/target/${{ matrix.target }}/release/bundle/msi/**
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install xattr & jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xattr
+          sudo apt-get install jq
+
+      - name: save app version
+        run: echo "APP_VERSION=$(jq -r '.package.version' ./src-tauri/tauri.conf.json)" >> $GITHUB_ENV
+
+      - name: Download x86_64 artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: artifacts-x86_64
+          path: artifacts/x86_64
+
+      - name: Download aarch64 artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: artifacts-aarch64
+          path: artifacts/aarch64
+
+      - name: Verify artifacts location
+        run: find artifacts
+
+      - name: Rename artifacts
+        run: |
+          mv "artifacts/aarch64/dmg/Delegate_${{ env.APP_VERSION }}_aarch64.dmg" "artifacts/Delegate_${{ env.APP_VERSION }}_mac_silicon.dmg"
+          mv "artifacts/aarch64/macos/Delegate.app.tar.gz" "artifacts/Delegate_${{ env.APP_VERSION }}_mac_silicon.app.tar.gz"
+          mv "artifacts/aarch64/macos/Delegate.app.tar.gz.sig" "artifacts/Delegate_${{ env.APP_VERSION }}_mac_silicon.app.tar.gz.sig"
+
+          mv "artifacts/x86_64/dmg/Delegate_${{ env.APP_VERSION }}_x64.dmg" "artifacts/Delegate_${{ env.APP_VERSION }}_mac_intel.dmg"
+          mv "artifacts/x86_64/macos/Delegate.app.tar.gz" "artifacts/Delegate_${{ env.APP_VERSION }}_mac_intel.app.tar.gz"
+          mv "artifacts/x86_64/macos/Delegate.app.tar.gz.sig" "artifacts/Delegate_${{ env.APP_VERSION }}_mac_intel.app.tar.gz.sig"
+
+          mv "artifacts/x86_64/deb/delegate_${{ env.APP_VERSION }}_amd64.deb" "artifacts/x86_64/deb/Delegate_${{ env.APP_VERSION }}_linux_x86_64.deb"
+          mv "artifacts/x86_64/appimage/delegate_${{ env.APP_VERSION }}_amd64.AppImage.tar.gz" "artifacts/Delegate_${{ env.APP_VERSION }}_linux_x86_64.AppImage.tar.gz"
+          mv "artifacts/x86_64/appimage/delegate_${{ env.APP_VERSION }}_amd64.AppImage.tar.gz.sig" "artifacts/Delegate_${{ env.APP_VERSION }}_linux_x86_64.AppImage.tar.gz.sig"
+
+          mv "artifacts/x86_64/Delegate_${{ env.APP_VERSION }}_x64_en-US.msi" "artifacts/Delegate_${{ env.APP_VERSION }}_windows_x86_64.msi"
+          mv "artifacts/x86_64/Delegate_${{ env.APP_VERSION }}_x64_en-US.msi.zip" "artifacts/Delegate_${{ env.APP_VERSION }}_windows_x86_64.msi.zip"
+          mv "artifacts/x86_64/Delegate_${{ env.APP_VERSION }}_x64_en-US.msi.zip.sig" "artifacts/Delegate_${{ env.APP_VERSION }}_windows_x86_64.msi.zip.sig"
+
+      # - name: Create install.json
+      #   run: |
+      #     echo "{ \"version\": \"${{ env.APP_VERSION }}\", \"notes\": \"new version\", \"pub_date\": \"$(date -u +\"%Y-%m-%dT%H:%M:%S.%3NZ\")\", \"platforms\": { \"darwin-aarch64\": { \"signature\": \"$(cat path/to/Delegate_${{ env.APP_VERSION }}_macos_aarch64.app.tar.gz.sig)\", \"url\": \"https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_macos_aarch64.app.tar.gz\" }, \"darwin-x86_64\": { \"signature\": \"$(cat path/to/Delegate_${{ env.APP_VERSION }}_macos_x86_64.app.tar.gz.sig)\", \"url\": \"https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_macos_x86_64.app.tar.gz\" }, \"linux-x86_64\": { \"signature\": \"$(cat path/to/Delegate_${{ env.APP_VERSION }}_linux_x86_64.AppImage.tar.gz.sig)\", \"url\": \"https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_linux_x86_64.AppImage.tar.gz\" }, \"windows-x86_64\": { \"signature\": \"$(cat path/to/Delegate_${{ env.APP_VERSION }}_windows_x86_64.msi.zip.sig)\", \"url\": \"https://github.com/EzzatOmar/delegate/releases/download/v${{ env.APP_VERSION }}/Delegate_${{ env.APP_VERSION }}_windows_x86_64.msi.zip\" } } }" > artifacts/install.json
+      #   env:
+      #     APP_VERSION: ${{ env.APP_VERSION }}
+
+      - name: Create Release
+        uses: softprops/action-gh-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: app-v${{ env.APP_VERSION }}
+          name: Delegate v${{ env.APP_VERSION }}
+          body: See the assets to download and install this version.
+          prerelease: false
+          draft: true
+          generate_release_notes: false
+          files: ./artifacts/**/*
