@@ -39,19 +39,19 @@ async function createInstallJson(version) {
     "platforms": {
       "darwin-aarch64": {
         "signature": await getSignature(version, 'darwin-aarch64'),
-        "url": `https://github.com/EzzatOmar/delegate/releases/download/app-v${version}/Delegate_${version}_mac_silicon.dmg`
+        "url": `https://github.com/EzzatOmar/delegate/releases/download/app-v${version}/Delegate_${version}_mac_silicon.app.tar.gz`
       },
       "darwin-x86_64": {
         "signature": await getSignature(version, 'darwin-x86_64'),
-        "url": `https://github.com/EzzatOmar/delegate/releases/download/app-v${version}/Delegate_${version}_mac_intel.dmg`
+        "url": `https://github.com/EzzatOmar/delegate/releases/download/app-v${version}/Delegate_${version}_mac_intel.app.tar.gz`
       },
       "linux-x86_64": {
         "signature": await getSignature(version, 'linux-x86_64'),
-        "url": `https://github.com/EzzatOmar/delegate/releases/download/app-v${version}/Delegate_${version}_linux_x86_64.deb`
+        "url": `https://github.com/EzzatOmar/delegate/releases/download/app-v${version}/Delegate_${version}_linux_x86_64.AppImage.tar.gz`
       },
       "windows-x86_64": {
         "signature": await getSignature(version, 'windows-x86_64'),
-        "url": `https://github.com/EzzatOmar/delegate/releases/download/app-v${version}/Delegate_${version}_windows_x86_64.msi`
+        "url": `https://github.com/EzzatOmar/delegate/releases/download/app-v${version}/Delegate_${version}_windows_x86_64.msi.zip.sig`
       }
     }
   }
