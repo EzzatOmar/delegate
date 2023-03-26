@@ -11,7 +11,8 @@
 
 - [ ] test install.json, update trigger
 - [ ] add update function
-- [ ] add delete message option
+- [ ] add code formater in left messages
+- [ ] add code formater in text input
 - [ ] include text streaming
 - [ ] update readme
 - [ ] auto name chate name in chat gpt, add setting to disable

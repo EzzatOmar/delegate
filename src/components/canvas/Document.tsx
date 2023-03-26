@@ -17,15 +17,58 @@ import { OpenAiConfig } from "../../hooks/useBot";
 import Svg from "../../base-components/SvgContainer";
 import Button from "../../base-components/Button";
 
-function MessageLeft(props: { message: ChatMessage }) {
-    return <div class="bg-gray-700 p-2 rounded-lg my-1 mr-32">{props.message.payload.text?.content}</div>
-}
 // register tiptap syntax highlighter
 hljs.listLanguages().forEach(lang => {
     const langModule = hljs.getLanguage(lang);
     if (langModule) lowlight.registerLanguage(lang, () => langModule);
 });
 
+function Message(props: { message: ChatMessage, left?: boolean }) {
+    let editor: () => Editor | undefined;
+    let editorDiv: HTMLDivElement;
+
+    onMount(async () => {
+
+        const formatText = (text: string) => {
+            const regex = /```\w*\s*([\s\S]*?)\s*```/g;
+            text = text.replace(regex, '<pre><code>$1</code></pre>');
+            const regex2 = /\n/g;
+            return text.replace(regex2, '<br>');
+        }
+        editor = createTiptapEditor(() => ({
+            element: editorDiv!,
+            extensions: [
+                Doc,
+                Paragraph,
+                Text,
+                HardBreak,
+                CodeBlockLowlight.configure({
+                    lowlight
+                }),
+                // custom
+            ],
+            content: formatText(htmlEncode(props.message.payload.text?.content ?? '')),
+            editable: false,
+            autofocus: true,
+            editorProps: {
+                attributes: {
+                }
+            }
+        }));
+    })
+
+    onCleanup(() => {
+        editor()?.destroy();
+    })
+// TODO: here switch between left and right on arg, look current implementation
+    return <div ref={editorDiv!} 
+    
+    class="message bg-yellow-800 p-2 rounded-lg my-1 ml-32"></div>
+}
+
+function MessageLeft(props: { message: ChatMessage }) {
+    return <div class="bg-gray-700 p-2 rounded-lg my-1 mr-32">{props.message.payload.text?.content}</div>
+}
 
 function MessageRight(props: { message: ChatMessage }) {
     let editor: () => Editor | undefined;

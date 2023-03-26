@@ -4,11 +4,11 @@
   overflow-y: scroll;
 }
 
-.bot-response > .ProseMirror > pre {
+.message > .ProseMirror > pre {
   background-color: rgb(49, 48, 48);
   padding: 0.25rem;
 }
 
-.bot-response > .ProseMirror > p {
+.message > .ProseMirror > p {
   max-height: none;
 }
