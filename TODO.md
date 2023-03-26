@@ -11,7 +11,6 @@
 
 - [ ] test install.json, update trigger
 - [ ] add update function
-- [ ] add code formater in left messages
 - [ ] add code formater in text input
 - [ ] include text streaming
 - [ ] update readme
