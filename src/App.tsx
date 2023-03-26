@@ -4,6 +4,7 @@ import Main from "./pages/main";
 import {connectDb} from "./controller/database";
 import { useAlert } from "./hooks/useAlert";
 import { updateApp } from "./controller/tauri";
+import { onUpdaterEvent } from '@tauri-apps/api/updater';
 
 listen('tauri::warning', (event) => {
   console.warn(event);
@@ -16,6 +17,10 @@ listen('tauri::error', (event) => {
   const [_, {setAlert}] = useAlert();
   setAlert({children: event.payload as any, duration: 100000, variant: 'danger'});
 })
+
+onUpdaterEvent((data) => {
+  console.log('Updater event', data);
+});
 
 function App() {
   const [dbLoaded, setDbLoaded] = createSignal(false);

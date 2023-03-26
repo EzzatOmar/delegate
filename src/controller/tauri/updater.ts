@@ -1,11 +1,7 @@
-import { checkUpdate, installUpdate, onUpdaterEvent } from '@tauri-apps/api/updater';
+import { checkUpdate, installUpdate } from '@tauri-apps/api/updater';
 import { relaunch } from '@tauri-apps/api/process';
 import { ask } from '@tauri-apps/api/dialog';
 import { getVersion, getName, getTauriVersion } from '@tauri-apps/api/app';
-
-const unlisten = await onUpdaterEvent((data) => {
-  console.log('Updater event', data);
-});
 
 export async function updateApp () {
   try {
