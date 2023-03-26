@@ -60,57 +60,23 @@ function Message(props: { message: ChatMessage, left?: boolean }) {
     onCleanup(() => {
         editor()?.destroy();
     })
-// TODO: here switch between left and right on arg, look current implementation
-    return <div ref={editorDiv!} 
-    
-    class="message bg-yellow-800 p-2 rounded-lg my-1 ml-32"></div>
+
+    return <div ref={editorDiv!}
+    classList={{
+        'bg-yellow-800': !props.left,
+        'bg-gray-700': props.left,
+        'ml-32': !props.left,
+        'mr-32': props.left,
+    }}
+    class="message p-2 rounded-lg my-1"></div>
 }
 
 function MessageLeft(props: { message: ChatMessage }) {
-    return <div class="bg-gray-700 p-2 rounded-lg my-1 mr-32">{props.message.payload.text?.content}</div>
+    return <Message message={props.message} left={true} />
 }
 
 function MessageRight(props: { message: ChatMessage }) {
-    let editor: () => Editor | undefined;
-    let editorDiv: HTMLDivElement;
-
-    onMount(async () => {
-
-        const formatText = (text: string) => {
-            const regex = /```\w*\s*([\s\S]*?)\s*```/g;
-            text = text.replace(regex, '<pre><code>$1</code></pre>');
-            const regex2 = /\n/g;
-            return text.replace(regex2, '<br>');
-        }
-        editor = createTiptapEditor(() => ({
-            element: editorDiv!,
-            extensions: [
-                Doc,
-                Paragraph,
-                Text,
-                HardBreak,
-                CodeBlockLowlight.configure({
-                    lowlight
-                }),
-                // custom
-            ],
-            content: formatText(htmlEncode(props.message.payload.text?.content ?? '')),
-            editable: false,
-            autofocus: true,
-            editorProps: {
-                attributes: {
-                }
-            }
-        }));
-    })
-
-    onCleanup(() => {
-        editor()?.destroy();
-    })
-
-
-    console.log(props.message.payload.text?.content)
-    return <div ref={editorDiv!} class="bot-response bg-yellow-800 p-2 rounded-lg my-1 ml-32"></div>
+    return <Message message={props.message} left={false} />
 }
 
 
