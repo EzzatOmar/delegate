@@ -17,11 +17,10 @@
 
 - [ ] update build:json.install - read from changelog, update notes key
   - [ ] render notes in bot detail on update dialog
+- [o] make context window variable
+  - [ ] add tokenizer <https://www.npmjs.com/package/@dqbd/tiktoken?activeTab=readme#vite/>
 - [ ] auto name chat name in chat gpt, add setting to disable
 - [ ] add discussion link <https://github.com/EzzatOmar/delegate/discussions>
-- [ ] make context window variable
-  - [ ] add tokenizer <https://www.npmjs.com/package/@dqbd/tiktoken?activeTab=readme#vite/>
-- [ ] update readme
 - [ ] save text as tiptap json
 - [ ] add code formater in text input
 - [ ] full text search: <https://github.com/lucaong/minisearch/>
