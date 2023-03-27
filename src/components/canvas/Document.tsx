@@ -106,11 +106,11 @@ function ChatConfigView(props: { chat: ChatState }) {
 }
 
 function MessageActions(props: { message: ChatMessage }) {
-    const [_, {dropMessageAndChildren}] = useChat();
+    const [_, { dropMessageAndChildren }] = useChat();
 
     return <div class="w-12 pt-4">
         <Svg name="trash" class="cursor-pointer hover:text-blue-400" onClick={e => {
-            dropMessageAndChildren({id: props.message.id});
+            dropMessageAndChildren({ id: props.message.id });
         }} />
     </div>
 }
@@ -218,8 +218,32 @@ function ChatView(props: { chat: ChatState }) {
         }
     })
 
+    const cloneChat = async () => {
+        const [_, {createChat, selectChat}, {buildChatStruct}] = useChat();
+        const [__, {handleGlobalError}] = useAlert();
+
+        // createChat
+        const chatStruct = buildChatStruct({
+            bot_uid: props.chat.bot_uid,
+            title: props.chat.title,
+        }, {
+            botSettings: props.chat.settings.botSettings
+        });
+        const [chat, gErr] = await createChat(chatStruct);
+        if(gErr) {
+            handleGlobalError(gErr);
+            return;
+        }
+        selectChat(chat!.id);
+    };
+
     return (
         <div class="flex flex-col" style="height: calc(100% - 2rem)">
+            <div class="flex mt-1 mb-2">
+                <div>
+                    <Button outline variant="neutral" prefix="plusLg" size="sm" onClick={() => {cloneChat()}}>Clone assistant to new chat</Button>
+                </div>
+            </div>
             <div class="flex-1 overflow-y-auto mb-1" ref={scrollableDiv!}>
                 <For each={props.chat.messages}>
                     {(item) => <div class="flex w-full">
