@@ -23,13 +23,13 @@ export const useAlert = ():[undefined, AlertReturn] => {
 
   const handleGlobalError = (gErr: GlobalError) => {
     if(gErr.UserAlert) {
-      setAlert({children: gErr.UserAlert, duration: 5000, variant: "danger"});
+      setAlert({children: gErr.UserAlert, duration: 15000, variant: "danger"});
     }
     if(gErr.UserWarning) {
-      setAlert({children: gErr.UserWarning, duration: 5000, variant: "warning"});
+      setAlert({children: gErr.UserWarning, duration: 15000, variant: "warning"});
     }
     if(gErr.UserInfo) {
-      setAlert({children: gErr.UserInfo, duration: 5000, variant: "primary"});
+      setAlert({children: gErr.UserInfo, duration: 15000, variant: "primary"});
     }
   }
 
