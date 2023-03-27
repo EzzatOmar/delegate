@@ -20,6 +20,7 @@
 
 - [ ] update build:json.install - read from changelog, update notes key
   - [ ] render notes in bot detail on update dialog
+- [ ] max width for chat window
 - [ ] auto name chat name in chat gpt, add setting to disable
 - [ ] add discussion link <https://github.com/EzzatOmar/delegate/discussions>
 - [ ] save text as tiptap json

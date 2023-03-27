@@ -1,6 +1,6 @@
 # Delegate  
 
-Delegate is a free and open-source desktop application that allows the user to run chatGPT as a dekstop application.
+Delegate is a free and open-source desktop application to connect to ChatGPT.
 
 ![delegate](./excalidraw/readme/first.excalidraw.png "delegate")
 
