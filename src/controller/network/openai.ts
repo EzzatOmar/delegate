@@ -119,8 +119,16 @@ export async function chatTitle(chat: ChatState):Promise<string> {
     }).then(async r => {
       const body:CreateChatCompletionResponse = await r.json();
       if (r.status === 200) {
-        const title = body.choices[0].message?.content;
+        let title = body.choices[0].message?.content;
         if(title && title.length < 100) {
+          title = title.trim();
+          // remove surrounding quotes
+          if(title.startsWith('"') && title.endsWith('"')) {
+            return title.slice(1, -1);
+          } else if(title.startsWith("'") && title.endsWith("'")) {
+            return title.slice(1, -1);
+          }
+
           return title;
         }
         throw new Error('title invalid');
