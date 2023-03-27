@@ -1,11 +1,10 @@
-import { Body, fetch as tauriFetch, FetchOptions, ResponseType } from "@tauri-apps/api/http"
+import { encoding_for_model, Tiktoken } from "@dqbd/tiktoken";
 import { unwrap } from 'solid-js/store';
 import { GlobalError } from '../../error';
-import { BotSettings, BotState, OpenAiBody, OpenAiConfig } from '../../hooks/useBot';
+import { OpenAiBody, OpenAiConfig } from '../../hooks/useBot';
 import { ChatState } from '../../hooks/useChat';
 import { insertLog, logStruct } from "../database/models/logs";
 import { fetch as customFetch } from './help';
-
 
 // https://github.com/openai/openai-openapi
 
@@ -42,6 +41,22 @@ type CreateChatCompletionResponse = {
   usage?: {prompt_tokens: number, completion_tokens: number, total_tokens: number};
 }
 
+function reduceMessageLength(messages: { role: string; content: string; }[], maxLength: number, enc: Tiktoken):  { role: string; content: string; }[] {
+  const encoded = messages.map(m => enc.encode(m.content))
+  const totalLength = encoded.reduce((a, b) => a + b.length, 0);
+  if(totalLength <= maxLength) return messages;
+  else {
+    if(messages.length > 1) {
+      // delete element in index 1
+      messages.splice(1, 1);
+      return reduceMessageLength(messages, maxLength, enc);
+    } else {
+      return [];
+    }
+  }
+
+}
+
 function prepareChatData(chat: ChatState): [{endpoint:string, method:"GET"|"POST", body:OpenAiBody, apiKey:string|null}|null, GlobalError | null] {
   if(chat.bot?.settings.configType !== 'OpenAiChat') return [null, {UserAlert: 'Bot must be of configType OpenAiChat'}];
 
@@ -54,12 +69,21 @@ function prepareChatData(chat: ChatState): [{endpoint:string, method:"GET"|"POST
   let body:OpenAiBody & {messages: {role: string, content: string}[]} = _body as any;
 
   if(body) {
-
     body.messages = [
       {"role": "system", "content": systemMessage},
       ...chat.messages.map(m => ({role: m.senderUid === null ? 'user' : 'assistant', content: m.payload.text?.content ?? ''})),
     ];
   }
+  try {
+    const enc = encoding_for_model((chat.api!.body! as OpenAiBody).model as any);
+    body.messages = reduceMessageLength(body.messages, 3800, enc);
+
+    enc.free();
+
+  } catch (error) {
+    console.error(error);
+  }
+
   if(import.meta.env.VITE_LOG === 'DEBUG') console.log('chatCompletion REQUEST', {endpoint, method, body});
 
   return [{endpoint, method, body, apiKey}, null];
@@ -132,11 +156,11 @@ export async function chatCompletionStream(chat: ChatState, cb: {onError: (gErr:
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
-  }).then(response => {
-
-    if(response.body === null) return;
+  }).then(async response => {
+    console.log(response)
+    if(!response.body) return;
     if(response.status !== 200) {
-      let err = (response.body as any).error as GlobalError['OpenAiError'];
+      let err = (await response.json() as any).error as GlobalError['OpenAiError'];
       const gErr = {
         UserAlert: `${err?.type} ${err?.message}`,
         OpenAiError: err,

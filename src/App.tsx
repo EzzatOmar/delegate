@@ -9,13 +9,13 @@ import { onUpdaterEvent } from '@tauri-apps/api/updater';
 listen('tauri::warning', (event) => {
   console.warn(event);
   const [_, {setAlert}] = useAlert();
-  setAlert({children: event.payload as any, duration: 100000, variant: 'warning'});
+  setAlert({children: event.payload as any, duration: 150000, variant: 'warning'});
 })
 
 listen('tauri::error', (event) => {
   console.warn(event);
   const [_, {setAlert}] = useAlert();
-  setAlert({children: event.payload as any, duration: 100000, variant: 'danger'});
+  setAlert({children: event.payload as any, duration: 150000, variant: 'danger'});
 })
 
 onUpdaterEvent((data) => {
