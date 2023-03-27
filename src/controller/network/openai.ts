@@ -170,16 +170,20 @@ export async function chatCompletionStream(chat: ChatState, cb: {onError: (gErr:
         if(chunk.choices[0].delta) {
           rawMessage.push(chunk);
           cb.onMessage(rawMessage);
-
-          const log:Omit<logStruct, "id" | "unix_timestamp"> = {
-            log_type: "http_response",
-            message: JSON.stringify({body:chunk, status, statusText, headers})
-          }
-          insertLog(log).catch(err => console.error(err));
         }
-
       })
       if (result.done) {
+
+        // reduce rawMessages into a single message, move all deltas into a single array
+        const delta = rawMessage.map(chunk => chunk.choices.at(0)?.delta);
+        const first = rawMessage.at(0) ?? {};
+        const body: any = Object.assign(first, {delta})
+
+        const log:Omit<logStruct, "id" | "unix_timestamp"> = {
+          log_type: "http_response",
+          message: JSON.stringify({body, status, statusText, headers})
+        }
+        insertLog(log).catch(err => console.error(err));
         cb.onDone(rawMessage);
         return;
       }
