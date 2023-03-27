@@ -12,13 +12,14 @@
 - [ ] increase timeout for alerts
 - [ ] add button to clone the assistant into a new chat
 
+# Release v.0.1.3  
+
+- [ ] add tokenizer, cut messages if to long for chatGPT
 
 # TODO
 
 - [ ] update build:json.install - read from changelog, update notes key
   - [ ] render notes in bot detail on update dialog
-- [o] make context window variable
-  - [ ] add tokenizer <https://www.npmjs.com/package/@dqbd/tiktoken?activeTab=readme#vite/>
 - [ ] auto name chat name in chat gpt, add setting to disable
 - [ ] add discussion link <https://github.com/EzzatOmar/delegate/discussions>
 - [ ] save text as tiptap json
