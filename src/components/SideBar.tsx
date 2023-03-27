@@ -11,6 +11,5 @@ export default function SideBar() {
                 </Match>
             </Switch>
         </div>
-        <div class="w-1 hover:bg-blue-400 cursor-col-resize"></div>
     </div>
 }
