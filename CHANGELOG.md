@@ -1,8 +1,8 @@
 # Release v.0.1.2  
 
-- [ ] sidebar-width remove
-- [ ] increase timeout for alerts
-- [ ] add button to clone the assistant into a new chat
+- sidebar-width remove
+- increase timeout for alerts
+- add button to clone the assistant into a new chat
 
 # Release v.0.1.1  
 
