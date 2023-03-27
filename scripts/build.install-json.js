@@ -1,6 +1,20 @@
 const fetch = require('node-fetch');
 const fs = require('fs');
 
+function parseChangelog() {
+  const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
+  const result = {};
+  changelog.split('# Release').forEach((section) => {
+    const [first, ...rest] = section.split('\n');
+    if(rest.length > 0) {
+      const key = first.substring(3).trim();
+      const value = rest.filter(x => x).filter(x => x.startsWith('- ')).map(x => x.substring(2).trim())
+      result[key] = value;
+    }
+  });
+  return result;
+}
+
 async function getVersion() {
   const url = 'https://github.com/EzzatOmar/delegate/releases/latest';
   const res = await fetch(url);
@@ -31,10 +45,12 @@ async function getSignature(version, platform) {
 
 async function createInstallJson(version) {
   const currentDate = new Date().toISOString();
+  const changelog = parseChangelog()[version];
+  if(!changelog) throw new Error('Changelog not found for version: ' + version);
 
   return {
     "version": version,
-    "notes": "new version",
+    "notes": JSON.stringify(changelog) ?? 'No changelog available',
     "pub_date": currentDate,
     "platforms": {
       "darwin-aarch64": {
@@ -60,7 +76,6 @@ async function createInstallJson(version) {
 async function run() {
   const version = await getVersion();
   const json = await createInstallJson(version);
-  console.log(json);
   fs.writeFileSync('updater/install.json', JSON.stringify(json, null, 2));
 }
 

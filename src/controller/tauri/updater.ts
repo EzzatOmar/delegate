@@ -6,13 +6,24 @@ import { getVersion, getName, getTauriVersion } from '@tauri-apps/api/app';
 export async function updateApp () {
   try {
     const { shouldUpdate, manifest } = await checkUpdate();
-    console.log(shouldUpdate, manifest);
+    console.log('update available?', shouldUpdate, manifest);
     console.log(`Current version: ${await getVersion()}`);
     console.log(`App name: ${await getName()}`);
     console.log(`Tauri version: ${await getTauriVersion()}`);
-    // await installUpdate().catch(console.error)
 
-    if (shouldUpdate && await ask(`Install new version ${manifest?.version}?`, 'Updatea available')) {
+    if (shouldUpdate) {
+      let body = manifest?.body ?? 'No description';
+      try {
+        body = JSON.parse(body);
+      } catch (error) {
+        console.error(error);
+      }
+      const message = `Install new version ${manifest?.version}?
+      ${Array.isArray(body) ? body.join('\n') : body}
+      `;
+      const confirm = await ask(message, 'Updates available');
+      if(!confirm) return;
+
       // display dialog
       await installUpdate()
       // install complete, restart the app
