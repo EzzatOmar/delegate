@@ -8,6 +8,8 @@
 
 # Release v.0.1.1  
 
+- [ ] add text streaming on default
+
 
 # TODO
 
@@ -16,6 +18,7 @@
 - [ ] sidebar-width remove
 - [ ] clone bot: perseve system bot
 - [ ] auto name chat name in chat gpt, add setting to disable
+- [ ] add discussion link <https://github.com/EzzatOmar/delegate/discussions>
 - [ ] make context window variable
   - [ ] add tokenizer <https://www.npmjs.com/package/@dqbd/tiktoken?activeTab=readme#vite/>
 - [ ] update readme
