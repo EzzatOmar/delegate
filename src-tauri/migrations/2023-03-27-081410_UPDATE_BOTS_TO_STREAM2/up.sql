@@ -3,6 +3,6 @@
 -- only if exits
 
 UPDATE bots
-SET settings = json_set(settings, '$.api.body.stream', 'true') 
+SET settings = json_set(settings, '$.api.body.stream', json('true')) 
 WHERE name = 'OpenAI ChatGPT'
 AND settings IS NOT NULL;
