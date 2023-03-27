@@ -13,6 +13,8 @@ import { OpenAiConfig } from "../../hooks/useBot";
 import Svg from "../../base-components/SvgContainer";
 import Button from "../../base-components/Button";
 import { Message } from "../../base-components/Message";
+import { chatCompletion, chatTitle } from "../../controller/network/openai";
+import { debounce } from "@solid-primitives/scheduled";
 
 
 
@@ -116,12 +118,13 @@ function MessageActions(props: { message: ChatMessage }) {
 }
 
 function ChatView(props: { chat: ChatState }) {
-    const [__, { addMessage }, { }] = useChat();
+    const [__, { addMessage, editChatTitle }, { }] = useChat();
 
     let scrollableDiv: HTMLDivElement;
     let inputEditorDiv: HTMLDivElement;
     let editor: () => Editor | undefined;
     const [spinner, setSpinner] = createSignal(false);
+    const [genTitle, setGenTitle] = createSignal(false);
 
     const [_, { setAlert, handleGlobalError }] = useAlert();
 
@@ -211,10 +214,28 @@ function ChatView(props: { chat: ChatState }) {
         }
     })
 
-    createEffect(() => {
+    const editTitleDebounce = debounce(async (chat: ChatState) => {
+        let title = await chatTitle(props.chat);
+        console.log(title)
+        for(let i = 0; i < title.length; i++) {
+            setTimeout(() => {
+                editChatTitle({ id: props.chat.id, title: title.substring(0, i + 1) });
+            }, 100 * (i + 1));
+        }
+    }, 1000);
+
+    createEffect(async () => {
         // scroll to bottom on new message
         if (props.chat._messages?.length) {
             scrollableDiv.scroll({ top: scrollableDiv.scrollHeight, behavior: 'smooth' });
+        }
+
+        if (((props.chat._messages?.length ?? 0) > 1 && props.chat.title === 'New chat') && !genTitle()) {
+            // generate title
+            if(props.chat.bot?.settings.api.endpoint === 'https://api.openai.com/v1/chat/completions') {
+                setGenTitle(true);
+                editTitleDebounce(props.chat);
+            }
         }
     })
 

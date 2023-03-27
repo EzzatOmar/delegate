@@ -86,7 +86,53 @@ function prepareChatData(chat: ChatState): [{endpoint:string, method:"GET"|"POST
 
   if(import.meta.env.VITE_LOG === 'DEBUG') console.log('chatCompletion REQUEST', {endpoint, method, body});
 
-  return [{endpoint, method, body, apiKey}, null];
+  // NOTE: the object must be readonly but the underlining solid store gets mutated, workaround
+  return [JSON.parse(JSON.stringify({endpoint, method, body, apiKey})), null];
+}
+
+export async function chatTitle(chat: ChatState):Promise<string> {
+  const [chatData, gErr] = prepareChatData(chat);
+  if(chatData) {
+    chatData.body.stream = false;
+    // @ts-ignore
+    const [_, ...msgs] = chatData.body.messages;
+
+    // @ts-ignore
+    chatData.body.messages = [
+      {"role": "system", "content": "You are a title generator. You take a conversation between an user and their assistant as input and generate a short title for it. Less than 5 words."},
+      {"role": "user", "content": msgs.map((m:{role: string, content: string}) => {
+        if(m.role === 'user') {
+          return `USER: \n${m.content}`
+        } else {
+          return `ASSISTANT: \n${m.content}`
+        }
+      }).join('\n\n') + '-----\nReturn a short title for this conversation.'},
+    ]
+
+    return await customFetch(chatData.endpoint, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${chatData.apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(chatData.body)
+    }).then(async r => {
+      const body:CreateChatCompletionResponse = await r.json();
+      if (r.status === 200) {
+        const title = body.choices[0].message?.content;
+        if(title && title.length < 100) {
+          return title;
+        }
+        throw new Error('title invalid');
+      } else {
+        throw new Error('chatCompletion failed');
+      }
+    })
+  
+
+  }
+  throw new Error('chatData is null');
+
 }
 
 export async function chatCompletion(chat: ChatState):Promise<[CreateChatCompletionResponse | null, GlobalError | null]> {
