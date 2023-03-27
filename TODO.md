@@ -6,16 +6,15 @@
 - [ ]  
   ![spinner position](./todo-images/spinner_position.excalidraw.png "spinner position")
 
-# Release v.0.1.1  
+# Release v.0.1.2  
 
-- [ ] add text streaming on default
+- [ ] sidebar-width remove
 
 
 # TODO
 
 - [ ] update build:json.install - read from changelog, update notes key
   - [ ] render notes in bot detail on update dialog
-- [ ] sidebar-width remove
 - [ ] clone bot: perseve system bot
 - [ ] auto name chat name in chat gpt, add setting to disable
 - [ ] add discussion link <https://github.com/EzzatOmar/delegate/discussions>
