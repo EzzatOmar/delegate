@@ -9,7 +9,7 @@ import { useChat } from "../../../hooks/useChat";
 import { ChatListItem } from "./ChatListItem";
 
 const lifeCycleMachine = createMachine({
-    /** @xstate-layout N4IgpgJg5mDOIC5QGEAWBDALgGQJax1wDMxkBPAYwBswA6XCGgYhMwtVwDsoBtABgC6iUAAcA9rFyZcYzsJAAPRAEYATAFZaANnUAOXeuVbVAZnVmjAGhBlEugOy0AnHz5a3y9eadflAXz9rNCw8AjwScmo6KjF0CC4oJlgAVwoKOFh+ISQQcUlpWXklBDMtWhMjEyddYzc+dQAWe2tbBF1lWgaDLXs9ZWV7Hr0AoIxCMOJSShpaGLiElnRcKmSAJzAs+TypGTkc4rNNBtV+nydVfTMWlXsTZ11VBor1H3s1dXsRkGDxwgjpuhgVarMSrFhgNgcbibHLbAp7UDFVSqPjaBoeW7uZROLQmLTXBDIhq0ew+dTuEx8VT2PgDBoBQIgThiCBweQ-UJ-KZRLYSHaFfaIAC0+JswrKrkljwuyOMJlUXw5+C5kRmDBovPyuyKiGOBP0nVc7i0nm8vkVY054W5Mzm8W4mv5CMUiEeuhJuhMBiMpnMhlFrQN6LqJq8VXNjKVE3+UVo6zirVEfPhOoQTSc5Upb10TicDWU6IDdg61XJvXaAyGugtIWV1tVgOBoMdKcFCHUVOcBZpDS0DXzfBxBIGd2qj2er3enwZQA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QGEAWBDALgGQJax1wDMxkBPAYwBswA6XCGgYhMwtVwDsoBtABgC6iUAAcA9rFyZcYzsJAAPRAEYATAFZaANnUAOXeuVbVAZnVmjAGhBlEugOy0AnHz5a3y9eadflAXz9rNCw8AjwScmo6KjF0CC4oJlgAVwoKOFh+ISQQcUlpWXklBDMtWhMjEyddYzc+dQAWe2tbBF1lWgaDLXs9ZWV7Hr0AoIxCMOJSShpaGLiElnRcKmSAJzAs+TypGTkc4rNNBtV+nydVfTMWlXsTZ11VBor1H3s1dXsRkGDxwgjpuhgVarMSrFhgNgcbibHLbAp7UDFVSqPjaBoeW7uZROLQmLTXBDIhq0ew+dTuEx8VT2PgDBoBQIgThiCBweQ-UJ-KZRLYSHaFfaIAC0+JswtMtAepNMPixvXOXw5+C5kRmDBovPyuyKiGOBP0nVc7i0nm8vkVY054W5Mzm8W4mv5CMUiEeuhJuhMBiMpnMhlFrQN6LqJq8VXNjKVE3+UVo6zirVEfPhOoQ6nq5V0Ti9yM9yj4eIJuO0H3luj4TnsDSavQtIWV1tVgOBoMdKcFaapzmUTT4DS01fzOIJAzu1Uez1e70+DKAA */
     id: "ChatListLifeCycle",
     initial: "idle",
     states: {
@@ -21,12 +21,15 @@ const lifeCycleMachine = createMachine({
 
         loading: {
             on: {
-                success: "ready",
-                failure: "error"
+                failure: "error",
+                success: "ready"
             }
         },
 
-        ready: {},
+        ready: {
+            type: "final",
+            entry: "selectChatIfNot"
+        },
 
         error: {
             on: {
@@ -79,7 +82,7 @@ function RenderReadyState() {
 
 
     return <>
-        <div class="p-2 border-b border-canvas-400 flex-shrink">
+        <div class="flex-shrink">
             <Button onClick={() => {
                 let bot = botStore.bots.at(0);
                 if (!bot) {
@@ -89,7 +92,7 @@ function RenderReadyState() {
                 create_chat({ bot_uid: bot.uid });
             }} prefix="plus" variant="primary" outline={true}><span class="text-canvas-100">Chat</span></Button>
         </div>
-        <div class="flex flex-col gap-2 py-2 px-1 flex-grow overflow-scroll">
+        <div class="flex flex-col gap-2 py-2 flex-grow overflow-scroll">
             <For each={chatList.chats}>
                 {(chat) => <ChatListItem chat={chat} />}
             </For>
@@ -107,7 +110,19 @@ function RenderErrorState(props: {send: (event: string) => void}) {
 }
 
 export default function ChatList() {
-    const [state, send] = useMachine(lifeCycleMachine);
+    const [chatList, {selectChat}] = useChat();
+
+    const [state, send] = useMachine(lifeCycleMachine, {
+        actions: {
+            selectChatIfNot: () => {
+                const selected = chatList.chats.find(c => c.selected);
+                const first = chatList.chats.at(0)?.id;
+                if (!selected && first) {
+                    selectChat(first);
+                }
+            }
+        }
+    });
 
     onMount(async () => {
         await loading(send);
