@@ -19,6 +19,8 @@
 - [ ] add code formater in text input
 - [ ] reduce size of stream messages, currently size increases O(n^2), with n = tokens
 - [ ] write architecture docs
+- [ ] sidebar item, on click outside exit edit mode
+  - ![click outside](./todo-images/click-outside.excalidraw.png "click outside")
 - [ ] parse GlobalError in FE, handle
 - [ ] loading button state
   - ![loading button state](./todo-images/button-loading.excalidraw.png "loading button state")
