@@ -1,7 +1,7 @@
 import { listen } from '@tauri-apps/api/event'
 import { createSignal, onMount, Show } from 'solid-js';
 import Main from "./pages/main";
-import {connectDb} from "./controller/database";
+import {connectDb, getVersion} from "./controller/database";
 import { useAlert } from "./hooks/useAlert";
 import { updateApp } from "./controller/tauri";
 import { onUpdaterEvent } from '@tauri-apps/api/updater';
@@ -30,6 +30,7 @@ function App() {
   
   onMount(async () => {
     await updateApp();
+    getVersion().then(console.log)
   })
 
   return (

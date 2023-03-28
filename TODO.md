@@ -9,6 +9,7 @@
 # Release v.0.1.4  
 
 - auto name chat name in chat gpt, add setting to disable
+- [ ] full text search: use FTS5
 
 # TODO
 
@@ -16,7 +17,7 @@
 - [ ] add discussion link <https://github.com/EzzatOmar/delegate/discussions>
 - [ ] save text as tiptap json
 - [ ] add code formater in text input
-- [ ] full text search: <https://github.com/lucaong/minisearch/>
+- [ ] reduce size of stream messages, currently size increases O(n^2), with n = tokens
 - [ ] write architecture docs
 - [ ] parse GlobalError in FE, handle
 - [ ] loading button state

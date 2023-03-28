@@ -9,3 +9,9 @@ export async function connectDb() {
   db = await Database.load(`sqlite:${dbPath}`);
   return db;
 }
+
+export async function getVersion() {
+  const db = await connectDb();
+  const version = await db.select<{version: string}[]>("SELECT sqlite_version() as version");
+  return version.at(0);
+}
