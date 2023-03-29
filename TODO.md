@@ -11,7 +11,7 @@
 - auto name chat title with chat gpt
 - full text search: use FTS5
 - increase default app window size
-- [ ] bugfix, auto title on wrong chat, scroll issue
+- bugfix: scroll issue
 
 # TODO
 

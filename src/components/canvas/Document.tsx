@@ -208,6 +208,7 @@ function ChatView(props: { chat: ChatState }) {
     createEffect(() => {
         // scroll to bottom on chat change
         if (props.chat.id) {
+            setGenTitle(false);
             scrollableDiv.scroll({ top: scrollableDiv.scrollHeight, behavior: 'auto' });
         }
     })
@@ -227,7 +228,6 @@ function ChatView(props: { chat: ChatState }) {
         if (props.chat._messages?.length) {
             scrollableDiv.scroll({ top: scrollableDiv.scrollHeight, behavior: 'smooth' });
         }
-
         if (((props.chat._messages?.length ?? 0) > 1 && props.chat.title === 'New chat') && !genTitle()) {
             // generate title
             if (props.chat.bot?.settings.api.endpoint === 'https://api.openai.com/v1/chat/completions') {
