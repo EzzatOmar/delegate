@@ -1,3 +1,12 @@
+# Release v.0.1.4  
+
+- auto name chat title with chat gpt
+- full text search: use FTS5
+- increase default app window size
+- bugfix: scroll issue
+- max width for chat window
+- reduce size of stream messages in db
+
 # Release v.0.1.3  
 
 - add tokenizer, cut messages if to long for chatGPT
