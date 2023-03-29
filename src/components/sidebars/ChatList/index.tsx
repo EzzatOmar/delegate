@@ -1,4 +1,4 @@
-import { For, Match, onMount, Switch } from "solid-js";
+import { createSignal, For, Match, onMount, Switch } from "solid-js";
 import { useMachine } from '@xstate/solid';
 import { createMachine } from 'xstate';
 import Button from "../../../base-components/Button";
@@ -7,6 +7,9 @@ import { useAlert } from "../../../hooks/useAlert";
 import { useBot } from "../../../hooks/useBot";
 import { useChat } from "../../../hooks/useChat";
 import { ChatListItem } from "./ChatListItem";
+import Input from "../../../base-components/Input";
+import { ftsChat } from "../../../controller/database/models/chats";
+import { ftsMessages } from "../../../controller/database/models/messages";
 
 const lifeCycleMachine = createMachine({
     /** @xstate-layout N4IgpgJg5mDOIC5QGEAWBDALgGQJax1wDMxkBPAYwBswA6XCGgYhMwtVwDsoBtABgC6iUAAcA9rFyZcYzsJAAPRAEYATAFZaANnUAOXeuVbVAZnVmjAGhBlEugOy0AnHz5a3y9eadflAXz9rNCw8AjwScmo6KjF0CC4oJlgAVwoKOFh+ISQQcUlpWXklBDMtWhMjEyddYzc+dQAWe2tbBF1lWgaDLXs9ZWV7Hr0AoIxCMOJSShpaGLiElnRcKmSAJzAs+TypGTkc4rNNBtV+nydVfTMWlXsTZ11VBor1H3s1dXsRkGDxwgjpuhgVarMSrFhgNgcbibHLbAp7UDFVSqPjaBoeW7uZROLQmLTXBDIhq0ew+dTuEx8VT2PgDBoBQIgThiCBweQ-UJ-KZRLYSHaFfaIAC0+JswtMtAepNMPixvXOXw5+C5kRmDBovPyuyKiGOBP0nVc7i0nm8vkVY054W5Mzm8W4mv5CMUiEeuhJuhMBiMpnMhlFrQN6LqJq8VXNjKVE3+UVo6zirVEfPhOoQ6nq5V0Ti9yM9yj4eIJuO0H3luj4TnsDSavQtIWV1tVgOBoMdKcFaapzmUTT4DS01fzOIJAzu1Uez1e70+DKAA */
@@ -79,10 +82,27 @@ function RenderReadyState() {
     const [chatList] = useChat();
     const [botStore] = useBot();
     const { setAlert } = useAlert()[1];
+    const [searchIds, setSearchIds] = createSignal<number[] | null>(null);
 
+    const filteredChats = () => chatList.chats.filter(c => {
+        const ids = searchIds();
+        if (ids === null) return true;
+        return ids.includes(c.id);
+    });
+
+    const onSearch = async (e: InputEvent & { currentTarget: HTMLInputElement; target: Element; }) => {
+        const query = e.currentTarget.value;
+        if(query) {
+            const mIds = await ftsMessages(query).then(messages => messages.map(m => m.chat_id));
+            const cIds = await ftsChat(query) .then(chats => chats.map(c => c.id));
+            setSearchIds([...mIds, ...cIds]);
+        } else {
+            setSearchIds(null);
+        }
+    }
 
     return <>
-        <div class="flex-shrink">
+        <div class="flex flex-col gap-2 m-2">
             <Button onClick={() => {
                 let bot = botStore.bots.at(0);
                 if (!bot) {
@@ -90,10 +110,14 @@ function RenderReadyState() {
                     return;
                 }
                 create_chat({ bot_uid: bot.uid });
-            }} prefix="plus" variant="primary" outline={true}><span class="text-canvas-100">Chat</span></Button>
+            }} prefix="plusLg" variant="primary" outline={true}><span class="text-canvas-100">New Chat</span></Button>
+
+            <Input class="bg-canvas-600 text-text-300 placeholder:text-text-500 text-sm" placeholder="search" onInput={onSearch}  />
         </div>
+
+
         <div class="flex flex-col gap-2 py-2 flex-grow overflow-scroll">
-            <For each={chatList.chats}>
+            <For each={filteredChats()}>
                 {(chat) => <ChatListItem chat={chat} />}
             </For>
         </div>
