@@ -14,7 +14,7 @@
 - increase default app window size
 - bugfix: scroll issue
 - max width for chat window
-- [ ] reduce size of stream messages, currently size increases O(n^2), with n = tokens
+- reduce size of stream messages in db
 
 # TODO
 
