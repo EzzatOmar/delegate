@@ -140,7 +140,7 @@ export default function ChatList() {
         actions: {
             selectChatIfNot: () => {
                 const selected = chatList.chats.find(c => c.selected);
-                const first = chatList.chats.at(0)?.id;
+                const first = chatList.chats.at(-1)?.id;
                 if (!selected && first) {
                     selectChat(first);
                 }

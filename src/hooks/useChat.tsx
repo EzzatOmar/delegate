@@ -184,9 +184,6 @@ async function removeChat(args: {id: number}):Promise<GlobalError | null> {
 
   batch(() => {
     setState('chats', chats => chats.filter(c => c.id !== args.id));
-    if(state.chats.length > 0 && !state.chats.find(c => c.selected)) {
-      selectChat(state.chats[0].id);
-    }
   })
 
   return null;
