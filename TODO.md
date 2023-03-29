@@ -8,9 +8,9 @@
 
 # Release v.0.1.4  
 
-- auto name chat name in chat gpt, add setting to disable
+- auto name chat title with chat gpt
 - full text search: use FTS5
-- increase window size
+- increase default app window size
 
 # TODO
 
@@ -22,7 +22,9 @@
 - [ ] save text as tiptap json
 - [ ] add code formater in text input
 - [ ] write architecture docs
-- [ ] sidebar item, on click outside exit edit mode
+- [ ] auto title naming: add setting to disable
+- [ ] auto title naming: add button to regenerate
+- [ ] sidebar item, on click outside exit edit mode of ChatListItem
   - ![click outside](./todo-images/click-outside.excalidraw.png "click outside")
 - [ ] parse GlobalError in FE, handle
 - [ ] loading button state
