@@ -79,7 +79,7 @@ function RenderEditState(props: { chat: ChatState; send: (event: any) => void; }
 
   const onSave = async () => {
     const newTitel = inputRef.value;
-    let [chat, gErr] = await editChatTitle({ title: inputRef.value, id: props.chat.id });
+    let [_, gErr] = await editChatTitle({ title: newTitel, id: props.chat.id });
 
     if (gErr) {
       handleGlobalError(gErr);
