@@ -92,11 +92,11 @@ function RenderEditState(props: { chat: ChatState; send: (event: any) => void; }
   };
 
   return <div class="flex">
-    <div class="flex-1 text-ellipsis overflow-hidden whitespace-nowrap">
-    <input ref={inputRef!} type="text" class="bg-transparent border border-blue-500 text-white w-full" placeholder="New chat" value={props.chat.title ?? 'New chat'} onKeyDown={e => {
-          if (e.key === 'Enter') onSave();
-          if (e.key === 'Escape') onCancel();
-        }} />
+    <div class="flex-1 text-ellipsis overflow-x-hidden whitespace-nowrap">
+      <input ref={inputRef!} type="text" class="bg-transparent border border-blue-500 text-white w-full" placeholder="New chat" value={props.chat.title ?? 'New chat'} onKeyDown={e => {
+        if (e.key === 'Enter') onSave();
+        if (e.key === 'Escape') onCancel();
+      }} />
     </div>
     <div class="gap-2 items-center flex">
       <Svg ref={okSvgRef!} name="check" class="hover:text-primary-400" onClick={async e => { onSave(); }} />
@@ -110,7 +110,7 @@ function RenderNormalState(props: { chat: ChatState; send: (event: any) => void;
   const [__, { handleGlobalError }] = useAlert();
 
   return <div class="flex">
-    <div class="flex-1 text-ellipsis overflow-hidden whitespace-nowrap">{props.chat.title ?? 'New chat'}</div>
+    <div class="flex-1 text-ellipsis overflow-x-hidden whitespace-nowrap">{props.chat.title ?? 'New chat'}</div>
     <div class="gap-2 items-center hidden group-hover:flex">
       <Svg name="pen" class="hover:text-primary-400" onClick={e => {
         props.send({ type: 'EDIT' });
@@ -141,7 +141,7 @@ export function ChatListItem(props: ChatListItemProps) {
     }
   });
 
-  return <div class="flex hover:bg-slate-500 cursor-pointer w-full px-1 flex-col group"
+  return <div class="flex hover:bg-slate-500 cursor-pointer w-full flex-col group px-1"
     classList={{ 'bg-slate-500': state.matches('active') }}
     onClick={e => { selectChat(props.chat.id) }}
   >
@@ -149,6 +149,6 @@ export function ChatListItem(props: ChatListItemProps) {
       fallback={<RenderNormalState chat={props.chat} send={send} />}>
       <RenderEditState chat={props.chat} send={send} />
     </Show>
-    <div class="text-xs text-stone-400 text-ellipsis overflow-hidden whitespace-nowrap">{props.chat.messages.at(-1)?.payload?.text?.content?.substring(0, 45)}&nbsp;</div>
+    <div class="text-xs text-stone-400 overflow-x-hidden whitespace-nowrap">{props.chat.messages.at(-1)?.payload?.text?.content?.substring(0, 45)}&nbsp;</div>
   </div>
 }

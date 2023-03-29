@@ -49,7 +49,7 @@ export function Message(props: MessageProps) {
           ],
           content: formatText(htmlEncode(props.message.payload.text?.content ?? '')),
           editable: false,
-          autofocus: true,
+          autofocus: false,
           editorProps: {
               attributes: {
               }
