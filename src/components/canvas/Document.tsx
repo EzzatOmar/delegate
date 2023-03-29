@@ -306,7 +306,7 @@ export default function Document() {
         return chatStore.chats.find(chat => chat.selected);
     }
 
-    return <div class="pb-2 h-screen flex flex-col">
+    return <div class="pb-2 h-screen flex flex-col max-w-5xl mx-auto">
         <Show when={selectedChat()}>
             <>
                 <Header chat={selectedChat()!} setConfigView={setConfigView} configView={configView} />

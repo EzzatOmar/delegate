@@ -12,11 +12,10 @@
 - full text search: use FTS5
 - increase default app window size
 - bugfix: scroll issue
+- max width for chat window
 
 # TODO
 
-- [ ] max width for chat window
-  - ![max width](./todo-images/chat-width.excalidraw.png "max width")
 - [ ] upload document
 - [ ] update readme screenshot, add roadmap diagram
 - [ ] reduce size of stream messages, currently size increases O(n^2), with n = tokens
