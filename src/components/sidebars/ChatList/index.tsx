@@ -88,7 +88,7 @@ function RenderReadyState() {
         const ids = searchIds();
         if (ids === null) return true;
         return ids.includes(c.id);
-    });
+    }).reverse();
 
     const onSearch = async (e: InputEvent & { currentTarget: HTMLInputElement; target: Element; }) => {
         const query = e.currentTarget.value;
