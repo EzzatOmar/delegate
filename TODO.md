@@ -1,23 +1,34 @@
 
-# BUGS
+# BUGS / REFACTOR
 
 - [ ] fix tauri warning  
   ![tauri warning](./todo-images/warnings.excalidraw.png "tauri warning")
 - [ ]  
   ![spinner position](./todo-images/spinner_position.excalidraw.png "spinner position")
+- [ ] as we use now xState we should rename all solid realated storges to stores or signals
 
 # Release v.0.1.4  
 
-- auto name chat name in chat gpt, add setting to disable
+- auto name chat title with chat gpt
+- full text search: use FTS5
+- increase default app window size
+- bugfix: scroll issue
+- max width for chat window
+- reduce size of stream messages in db
 
 # TODO
 
-- [ ] max width for chat window
+- [ ] upload document
+- [ ] prompt library
+- [ ] update readme screenshot, add roadmap diagram
 - [ ] add discussion link <https://github.com/EzzatOmar/delegate/discussions>
 - [ ] save text as tiptap json
 - [ ] add code formater in text input
-- [ ] full text search: <https://github.com/lucaong/minisearch/>
 - [ ] write architecture docs
+- [ ] auto title naming: add setting to disable
+- [ ] auto title naming: add button to regenerate
+- [ ] sidebar item, on click outside exit edit mode of ChatListItem
+  - ![click outside](./todo-images/click-outside.excalidraw.png "click outside")
 - [ ] parse GlobalError in FE, handle
 - [ ] loading button state
   - ![loading button state](./todo-images/button-loading.excalidraw.png "loading button state")

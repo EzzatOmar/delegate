@@ -9,6 +9,18 @@ export type ChatStruct = {
   settings: string;
 };
 
+export async function ftsChat(query: string):Promise<ChatStruct[]> {
+  const db = await connectDb();
+  return db.select<ChatStruct[]>(`
+  WITH cte AS (
+    SELECT rowid FROM fts_chats($1)
+  )
+  SELECT *
+  FROM chats
+  WHERE id IN (SELECT rowid FROM cte)
+  `, [query]);
+}
+
 export async function insertChat(chat: Omit<ChatStruct, "id" | "last_message_unix_timestamp">):Promise<ChatStruct> {
   const db = await connectDb();
   return db.select<ChatStruct[]>(`

@@ -15,6 +15,7 @@ export interface InputProps {
   suffixClass?: string;
   size?: 'sm' | 'md' | 'lg';
   ref?: HTMLDivElement | ((el: HTMLDivElement) => void);
+  class?: string;
 }
 
 export default function Input(props: InputProps) {
@@ -45,7 +46,7 @@ export default function Input(props: InputProps) {
           name="account-number"
           id="account-number"
           disabled={props.disabled}
-          class="block w-full px-1 rounded-sm h-8 border-primary-100 focus:border-blue-500 focus:ring-blue-500 bg-canvas-400 text-text-800 placeholder:text-text-200"
+          class={props.class + " block w-full px-1 rounded-sm h-8 border-primary-100 focus:border-blue-500 focus:ring-blue-500 bg-canvas-400 text-text-800 placeholder:text-text-200"}
           classList={{
             'pl-9': !!props.prefix,
             'pr-9': !!props.suffix,

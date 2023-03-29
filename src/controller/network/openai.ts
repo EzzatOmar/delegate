@@ -211,7 +211,6 @@ export async function chatCompletionStream(chat: ChatState, cb: {onError: (gErr:
     },
     body: JSON.stringify(body),
   }).then(async response => {
-    console.log(response)
     if(!response.body) return;
     if(response.status !== 200) {
       let err = (await response.json() as any).error as GlobalError['OpenAiError'];

@@ -13,10 +13,8 @@ import { OpenAiConfig } from "../../hooks/useBot";
 import Svg from "../../base-components/SvgContainer";
 import Button from "../../base-components/Button";
 import { Message } from "../../base-components/Message";
-import { chatCompletion, chatTitle } from "../../controller/network/openai";
+import { chatTitle } from "../../controller/network/openai";
 import { debounce } from "@solid-primitives/scheduled";
-
-
 
 function MessageLeft(props: { message: ChatMessage }) {
     return <Message message={props.message} left={true} />
@@ -210,6 +208,7 @@ function ChatView(props: { chat: ChatState }) {
     createEffect(() => {
         // scroll to bottom on chat change
         if (props.chat.id) {
+            setGenTitle(false);
             scrollableDiv.scroll({ top: scrollableDiv.scrollHeight, behavior: 'auto' });
         }
     })
@@ -217,7 +216,7 @@ function ChatView(props: { chat: ChatState }) {
     const editTitleDebounce = debounce(async (chat: ChatState) => {
         let title = await chatTitle(props.chat);
         console.log(title)
-        for(let i = 0; i < title.length; i++) {
+        for (let i = 0; i < title.length; i++) {
             setTimeout(() => {
                 editChatTitle({ id: props.chat.id, title: title.substring(0, i + 1) });
             }, 100 * (i + 1));
@@ -229,10 +228,9 @@ function ChatView(props: { chat: ChatState }) {
         if (props.chat._messages?.length) {
             scrollableDiv.scroll({ top: scrollableDiv.scrollHeight, behavior: 'smooth' });
         }
-
         if (((props.chat._messages?.length ?? 0) > 1 && props.chat.title === 'New chat') && !genTitle()) {
             // generate title
-            if(props.chat.bot?.settings.api.endpoint === 'https://api.openai.com/v1/chat/completions') {
+            if (props.chat.bot?.settings.api.endpoint === 'https://api.openai.com/v1/chat/completions') {
                 setGenTitle(true);
                 editTitleDebounce(props.chat);
             }
@@ -240,8 +238,8 @@ function ChatView(props: { chat: ChatState }) {
     })
 
     const cloneChat = async () => {
-        const [_, {createChat, selectChat}, {buildChatStruct}] = useChat();
-        const [__, {handleGlobalError}] = useAlert();
+        const [_, { createChat, selectChat }, { buildChatStruct }] = useChat();
+        const [__, { handleGlobalError }] = useAlert();
 
         // createChat
         const chatStruct = buildChatStruct({
@@ -251,7 +249,7 @@ function ChatView(props: { chat: ChatState }) {
             botSettings: props.chat.settings.botSettings
         });
         const [chat, gErr] = await createChat(chatStruct);
-        if(gErr) {
+        if (gErr) {
             handleGlobalError(gErr);
             return;
         }
@@ -262,10 +260,10 @@ function ChatView(props: { chat: ChatState }) {
         <div class="flex flex-col" style="height: calc(100% - 2rem)">
             <div class="flex mt-1 mb-2">
                 <div>
-                    <Button outline variant="neutral" prefix="plusLg" size="sm" onClick={() => {cloneChat()}}>Clone assistant to new chat</Button>
+                    <Button outline variant="neutral" prefix="plusLg" size="sm" onClick={() => { cloneChat() }}>Clone assistant to new chat</Button>
                 </div>
             </div>
-            <div class="flex-1 overflow-y-auto mb-1" ref={scrollableDiv!}>
+            <div class="flex-1 overflow-y-scroll h-full mb-1" ref={scrollableDiv!}>
                 <For each={props.chat.messages}>
                     {(item) => <div class="flex w-full">
                         <div class="">
@@ -308,7 +306,7 @@ export default function Document() {
         return chatStore.chats.find(chat => chat.selected);
     }
 
-    return <div class="pb-2 h-screen flex flex-col">
+    return <div class="pb-2 h-screen flex flex-col max-w-5xl mx-auto">
         <Show when={selectedChat()}>
             <>
                 <Header chat={selectedChat()!} setConfigView={setConfigView} configView={configView} />

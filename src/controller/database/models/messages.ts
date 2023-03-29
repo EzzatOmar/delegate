@@ -10,6 +10,18 @@ export type MessageStruct = {
   parent_id: number | null
 }
 
+export async function ftsMessages(query: string):Promise<MessageStruct[]> {
+  const db = await connectDb();
+  return db.select<MessageStruct[]>(`
+  WITH cte AS (
+    SELECT rowid FROM fts_messages($1)
+  )
+  SELECT *
+  FROM messages
+  WHERE id IN (SELECT rowid FROM cte)
+  `, [query]);
+}
+
 export async function updateMessagePayload(id: number, payload: string):Promise<MessageStruct> {
   const db = await connectDb();
   return db.select<MessageStruct[]>(`

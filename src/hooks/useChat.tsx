@@ -184,9 +184,6 @@ async function removeChat(args: {id: number}):Promise<GlobalError | null> {
 
   batch(() => {
     setState('chats', chats => chats.filter(c => c.id !== args.id));
-    if(state.chats.length > 0 && !state.chats.find(c => c.selected)) {
-      selectChat(state.chats[0].id);
-    }
   })
 
   return null;
@@ -202,7 +199,7 @@ function openAiChatCompletionResponseHandler(chat: ChatState, parentMessageId: n
     return;
   }
 
-  
+
   if(openAiBody.stream) {
     let messageStruct:MessageStruct;
     let inserted = false;
@@ -218,7 +215,7 @@ function openAiChatCompletionResponseHandler(chat: ChatState, parentMessageId: n
           receiver_uid: null,
           parent_id: parentMessageId,
           payload: JSON.stringify({
-              raw: [data],
+              raw: data.at(0) ? [data.at(0)] : [],
               text: {
                 content: responseMessage,
               }
@@ -230,7 +227,7 @@ function openAiChatCompletionResponseHandler(chat: ChatState, parentMessageId: n
       } else {
         if(!messageStruct) return false;
         messageStruct.payload = JSON.stringify({
-          raw: [data],
+          raw: data.at(0) ? [data.at(0)] : [],
           text: {
             content: responseMessage,
           }
@@ -307,8 +304,6 @@ function openAiChatCompletionResponseHandler(chat: ChatState, parentMessageId: n
       if(opts?.onBotResponseHandler) opts.onBotResponseHandler([null, {UserAlert: err}]);
     })
   }
-
-
 
 }
 
