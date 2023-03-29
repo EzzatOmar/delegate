@@ -1,10 +1,11 @@
 
-# BUGS
+# BUGS / REFACTOR
 
 - [ ] fix tauri warning  
   ![tauri warning](./todo-images/warnings.excalidraw.png "tauri warning")
 - [ ]  
   ![spinner position](./todo-images/spinner_position.excalidraw.png "spinner position")
+- [ ] as we use now xState we should rename all solid realated storges to stores or signals
 
 # Release v.0.1.4  
 
@@ -13,13 +14,13 @@
 - increase default app window size
 - bugfix: scroll issue
 - max width for chat window
+- [ ] reduce size of stream messages, currently size increases O(n^2), with n = tokens
 
 # TODO
 
 - [ ] upload document
 - [ ] prompt library
 - [ ] update readme screenshot, add roadmap diagram
-- [ ] reduce size of stream messages, currently size increases O(n^2), with n = tokens
 - [ ] add discussion link <https://github.com/EzzatOmar/delegate/discussions>
 - [ ] save text as tiptap json
 - [ ] add code formater in text input
