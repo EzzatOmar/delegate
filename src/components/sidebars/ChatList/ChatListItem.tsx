@@ -6,7 +6,7 @@ import { useAlert } from "../../../hooks/useAlert";
 import { ChatState, useChat } from "../../../hooks/useChat";
 
 const lifeCycleMachine = createMachine({
-  /** @xstate-layout N4IgpgJg5mDOIC5QGEAWBDALgSU2AtgDICWAZmMgJ4DGANmAHQAO6ssxAbmAMQDKAooX7IAKgG0ADAF1EoJgHt2mYvIB2skAA9EAJgkSGAFgDsATgAcOwxIBsNgIw2d9gDQhKic8YYBWG8Z1jHx0fCR1zc0MAXyi3NCxcAhJyKjpGFjZORlV5ACd8dFpufgARbHFpDQUlFXUkLUQAWgBmQxsGe2MJIJ97K2tDV3dEYIYbc3HTUxtmiR8fa3MYuIwcPCIyChp6ZlZ2LgZIYmVVKG5kAEEAOWRBSRl66uPajW0ERqtmhimJQdM+nwTcymZpuDwIezNHRGGYOPSGcz2PxOZYgeJrJKbVI7DL7RhHE5nXgXABq-HuVUUzzUryaJmhzWM9lMOhsU1MAyG4Mh0LazThv0RyJ0qPRiQ2KW2jHQ1GUXG4AFUrgIhKIKY8qcoafU3jpWgxgbYoU4QRyfKDhu97EZAgFEVDujZQhZRatxcktmkGDK5dk8gUiqVyuq5JqXjrEIyvlDmj4AnYkXZjGDIwtvoDms0kTpwoYza6EusPdjpbKsocIM9TnxSeTKhqatrQLqfKYba2uoNWeEOSmEIMfGNLD3DAjevaCxiJZ6dj7ywTiNXLjc7vXQ426s3EAjvOZuqPMxFApDDH2B0Oc8DR+Zx5CYrEQDkIHANGKi1ipZSN7T3n5zAxGWZVl2U5PtGnsSIGD0YwZkzUxjEsNolgfN9MUlL1cSyL9qU3Bpfz0ACmRZNkplAy1GmmBgAmZONLGZLMmUnd0PwwvZyxyfJCmwrVcLeFpRnCbpEMZWEfDAts9ScGCIL6E8XRQt133QnE2IOBdTm48Mt3eWMGSI4DSN+LlEEha1nCPewJE6QJwmaJilJnUtfU0ps8Oca1DBCeCjO7K8+3hBgJEiJwgokf4dCmey0Mc70ywODiAxc3jI38KDIQWfxghZeD-P+XwuizJETCC1sbCi6cS1i30KyrKAkp-Rk208jsfKcPzLUGQwjEZPNLH0G9AXvKIgA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QGEAWBDALgSU2AtgDICWAZmMgJ4DGANmAHQAO6ssxAbmAMQDKAooX7IAKgG0ADAF1EoJgHt2mYvIB2skAA9EAJgkSGAFgDsATgAcOwxIBsNgIw2d9gDQhKic8YYBWG8Z1jHx0fCR1zc0MAXyi3NCxcAhJyKjpGFjZORlV5ACd8dFpufgARbHFpDQUlFXUkLUQAWgBmQxsGe2MJIJ97K2tDV3dEYIYbc3HTUxtmiR8fa3MYuIwcPCIyChp6ZlZ2LgZIYmVVKG5kAEEAOWRBSRl66uPajW0ERqtmhimJQdM+nwTcymZpuDwIezNHRGGYOPSGcz2PxOZYgeJrJKbVI7DL7RhHE5nXgXABq-HuVUUzzUryaJmhzWM9lMOhsU1MAyG4Mh0LazThv0RyJ0qPRiQ2KW2jHQ1GUXG4AFUrgIhKIKY8qcoafU3jpWgxgbYoU4QRyfKDhu97EZAgFEVDujZQhZRatxcktmkGDK5dk8gUiqVyuq5JqXjrEIyvlDmj4AnYkXZjGDIwtvoDms0kTpwoYza6EusPdjpbKsocIM9TnxSeTKhqatrQLqfKYba2uoNWeEOSmEIMfGNLD3DAjevaCxiJZ6dj7ywTiNXLjc7vXQ426s3EAjvOZuqPMxFApDDH2B0Oc8DR+Zx5CYrEQDkIHANGKi1ipZSN7T3n5zAxGWZVl2U5PtGnsSIGD0YwbF+CxulCGxJ3dD8vVxLIv2pTcGl-PQAKZFk2SmUDLUaaYGACIDgi6fwb2Q99JTQvZyxyfJCkwrVsLeFpRnCbpLEMRlYR8MC2z1JwYIgvoTxdB830xRicWYg4F1ODjwy3d5YwZAjgOI34uUQSFrWcI97AkTpAnCZp6IUmdS19dSmxw5xrUMEJTE7PonCvPt4QYCRIlg6SbGsfwRTkt0GPs70ywOViAycrjI38KDIQWfxghZTy-P+XwuizJETEC1skMiws7JLWLfQrKsoCSn9GTbdyOwM7tfMtQZDCMRk80sfQb0Be8oiAA */
   id: "ChatItemLifeCycle",
   initial: "passive",
   schema: {
@@ -16,7 +16,10 @@ const lifeCycleMachine = createMachine({
   states: {
     passive: {
       on: {
-        SELECT: "active"
+        SELECT: {
+          target: "active",
+          actions: "scrollToViewPort"
+        }
       },
 
       states: {
@@ -127,7 +130,16 @@ function RenderNormalState(props: { chat: ChatState; send: (event: any) => void;
 }
 
 export function ChatListItem(props: ChatListItemProps) {
-  const [state, send] = useMachine(lifeCycleMachine);
+  let ref: HTMLDivElement;
+  const [state, send] = useMachine(lifeCycleMachine, {
+    actions: {
+      scrollToViewPort(context, event, meta) {
+        const rect = ref.getBoundingClientRect();
+        const isInViewport = rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+        if(!isInViewport) ref.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      },
+    }
+  });
   const [_, { selectChat }, ___] = useChat();
 
   props = mergeProps({ selected: false, label: 'New Chat' }, props);
@@ -141,7 +153,7 @@ export function ChatListItem(props: ChatListItemProps) {
     }
   });
 
-  return <div class="flex hover:bg-slate-500 cursor-pointer w-full flex-col group px-1"
+  return <div ref={ref!} class="flex hover:bg-slate-500 cursor-pointer w-full flex-col group px-1"
     classList={{ 'bg-slate-500': state.matches('active') }}
     onClick={e => { selectChat(props.chat.id) }}
   >

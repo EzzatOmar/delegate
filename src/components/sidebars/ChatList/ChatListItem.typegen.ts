@@ -10,13 +10,13 @@
           
         };
         missingImplementations: {
-          actions: never;
+          actions: "scrollToViewPort";
           delays: never;
           guards: never;
           services: never;
         };
         eventsCausingActions: {
-          
+          "scrollToViewPort": "SELECT";
         };
         eventsCausingDelays: {
           

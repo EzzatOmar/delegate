@@ -17,6 +17,7 @@
 # TODO
 
 - [ ] upload document
+- [ ] prompt library
 - [ ] update readme screenshot, add roadmap diagram
 - [ ] reduce size of stream messages, currently size increases O(n^2), with n = tokens
 - [ ] add discussion link <https://github.com/EzzatOmar/delegate/discussions>
