@@ -9,15 +9,18 @@
 # Release v.0.1.4  
 
 - auto name chat name in chat gpt, add setting to disable
-- [ ] full text search: use FTS5
+- full text search: use FTS5
+- increase window size
 
 # TODO
 
 - [ ] max width for chat window
+  - ![max width](./todo-images/chat-width.excalidraw.png "max width")
+- [ ] update readme screenshot, add roadmap diagram
+- [ ] reduce size of stream messages, currently size increases O(n^2), with n = tokens
 - [ ] add discussion link <https://github.com/EzzatOmar/delegate/discussions>
 - [ ] save text as tiptap json
 - [ ] add code formater in text input
-- [ ] reduce size of stream messages, currently size increases O(n^2), with n = tokens
 - [ ] write architecture docs
 - [ ] sidebar item, on click outside exit edit mode
   - ![click outside](./todo-images/click-outside.excalidraw.png "click outside")
