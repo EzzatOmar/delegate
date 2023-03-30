@@ -7,20 +7,14 @@
   ![spinner position](./todo-images/spinner_position.excalidraw.png "spinner position")
 - [ ] as we use now xState we should rename all solid realated storges to stores or signals
 
-# Release v.0.1.4  
-
-- auto name chat title with chat gpt
-- full text search: use FTS5
-- increase default app window size
-- bugfix: scroll issue
-- max width for chat window
-- reduce size of stream messages in db
+# Release v.0.1.5  
 
 # TODO
 
+- [ ] implement chain of thoughts with minds - try out
+- [ ] implement new tabs (agent, tools)
 - [ ] upload document
 - [ ] prompt library
-- [ ] update readme screenshot, add roadmap diagram
 - [ ] add discussion link <https://github.com/EzzatOmar/delegate/discussions>
 - [ ] save text as tiptap json
 - [ ] add code formater in text input
@@ -36,16 +30,12 @@
 - [ ] parse GlobalError in FE, handle
 - [ ] loading button state
   - ![loading button state](./todo-images/button-loading.excalidraw.png "loading button state")
-
-# Features
-
 - [ ] render lists  
-  ![render lists](./todo-images/render-lists.excalidraw.png "render lists")
-- [ ] add system tray
-- [ ] create multiple openai completion bot by model (ada, babbage, davinci, etc)
+  - ![render lists](./todo-images/render-lists.excalidraw.png "render lists")
 
 # Roadmap
 
+- [ ] add system tray
 - [ ] website + download
 - [ ] other opanai text apis
 - [ ] other chat bot apis
