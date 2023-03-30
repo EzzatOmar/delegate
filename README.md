@@ -8,6 +8,10 @@ Delegate is a free and open-source desktop application to connect to ChatGPT.
 
 Go to <https://github.com/EzzatOmar/delegate/releases/latest> and download the build for your operating system.
 
+## Roadmap  
+
+![roadmap](./excalidraw/readme/roadmap.excalidraw.png "roadmap")
+
 
 ## Usage  
 
