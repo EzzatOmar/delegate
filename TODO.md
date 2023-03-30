@@ -27,6 +27,8 @@
 - [ ] write architecture docs
 - [ ] auto title naming: add setting to disable
 - [ ] auto title naming: add button to regenerate
+- [ ] ci pipeling - fail when release already exists
+- [ ] render tables  <https://tiptap.dev/api/nodes/table>
 - [ ] keep newlines in system message  
  ![keep newlines in system message](./todo-images/format-systemmessage.excalidraw.png "keep newlines in system message")
 - [ ] sidebar item, on click outside exit edit mode of ChatListItem
