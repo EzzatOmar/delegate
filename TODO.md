@@ -27,6 +27,8 @@
 - [ ] write architecture docs
 - [ ] auto title naming: add setting to disable
 - [ ] auto title naming: add button to regenerate
+- [ ] keep newlines in system message  
+ ![keep newlines in system message](./todo-images/format-systemmessage.excalidraw.png "keep newlines in system message")
 - [ ] sidebar item, on click outside exit edit mode of ChatListItem
   - ![click outside](./todo-images/click-outside.excalidraw.png "click outside")
 - [ ] parse GlobalError in FE, handle
